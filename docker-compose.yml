@@ -13,6 +13,9 @@ services:
       context: ./nginx
     ports:
       - '3050:80'
+    depends_on:
+      - api
+      - client
   api:
     build:
       dockerfile: Dockerfile.dev # not an real path just the name => path is in context
@@ -28,6 +31,8 @@ services:
       - PGDATABASE=postgres
       - PGPASSWORD=postgres_password
       - PGPORT=5432
+    depends_on:
+      - postgres
   client:
     build:
       dockerfile: Dockerfile.dev
@@ -42,5 +47,8 @@ services:
     volumes:
       - /app/node_modules # do not try to overwrite this folder inside the container
       - ./worker:/app
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
 
 
