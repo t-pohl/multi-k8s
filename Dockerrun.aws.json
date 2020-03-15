@@ -4,10 +4,7 @@
     {
       "name": "client",
       "image": "pohltho/multi-client",
-      // name can be used in URLs just like the services of docker-compose
       "hostname": "client",
-      // essential true => if container crashes all other containers will be shut down.
-      // At least one container has to be marked as essential.
       "essential": false
     },
     {
@@ -19,14 +16,12 @@
     {
       "name": "worker",
       "image": "pohltho/multi-worker",
-      // strictly speaking we do not need the hostname here (worker is not directly accessed)
       "hostname": "worker",
       "essential": false
     },
     {
       "name": "nginx",
       "image": "pohltho/multi-nginx",
-      // hostname is not required since no oter container is making direct request to the nginx container
       "essential": true,
       "portMappings": [
         {
@@ -34,8 +29,6 @@
           "containerPort": 80
         }
       ],
-      // make this containers visible to the nginx container (unidirectional links)
-      // Inside the array we use the defined NAMES of the containers (see server versus its hostname api)
       "links": ["client", "server"]
     }
   ]
